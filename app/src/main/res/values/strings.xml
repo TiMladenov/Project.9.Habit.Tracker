@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Maintenance Tracker</string>
+    <string name="date">Enter date</string>
+    <string name="action_taken">Enter taken action</string>
+    <string name="price">Enter price</string>
+    <string name="sertice_name">Enter service name</string>
+    <string name="submit">Submit</string>
+    <string name="fill_all">Fill all fields, please.</string>
+    <string name="error_save">Error saving service entry</string>
+    <string name="success_save">Service entry saved with row id:\t</string>
+    <string name="db_contains_text">This DB contains:\t</string>
+    <string name="db_contains_text_0">\tentries.\n</string>
+</resources>
