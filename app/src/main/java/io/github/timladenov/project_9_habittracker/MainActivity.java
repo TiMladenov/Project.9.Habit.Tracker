@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText price;
     EditText serviceName;
     Button submitButton;
+    TextView textView;
+    Cursor readCursor;
     View dbContents;
     ServiceHelper helper;
 
@@ -37,13 +39,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         serviceName = (EditText) findViewById(R.id.service_name);
         submitButton = (Button) findViewById(R.id.submit);
         submitButton.setOnClickListener(this);
+        textView = (TextView) findViewById(R.id.db_contains);
 
         // Hides the Layout which will display the current information in the DB
         dbContents = findViewById(R.id.db_read);
         dbContents.setVisibility(View.GONE);
 
         // Initiates the check if the DB exists and has entries
-        showDataBase();
+        readCursor = showDataBase();
+        textView.append(getCursorContent(readCursor));
     }
 
     @Override
@@ -60,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             insertDateInDb();
         }
+        if (dbContents.getVisibility() == View.VISIBLE) {
+            dbContents.setVisibility(View.GONE);
+            dbContents.setVisibility(View.VISIBLE);
+            readCursor = showDataBase();
+            textView.append(getCursorContent(readCursor));
+        }
     }
 
     // Checks if an EditText is empty
@@ -73,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Inserts tha received data from the EditText into the DB. Throws an error message if insertion cannot be done.
     private void insertDateInDb() {
+
         helper = new ServiceHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -89,12 +100,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             Toast.makeText(this, getString(R.string.success_save) + newID, Toast.LENGTH_SHORT).show();
         }
+
+        if (dbContents.getVisibility() == View.GONE) {
+            dbContents.setVisibility(View.VISIBLE);
+            readCursor = showDataBase();
+            textView.append(getCursorContent(readCursor));
+        }
     }
 
     // If there's a DB and there's data in it, the Layout @param dbContents is displayed and the
     // TextView that is contained within gets populated with the DB contents
 
-    private void showDataBase() {
+    private Cursor showDataBase() {
         helper = new ServiceHelper(this);
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -107,7 +124,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
 
         Cursor cursor = db.query(ServiceEntry.TABLE_NAME, projection, null, null, null, null, null);
-        TextView textView = (TextView) findViewById(R.id.db_contains);
+        return cursor;
+    }
+
+    private String getCursorContent(Cursor cursor) {
+
+        String result = "";
 
         try {
             if (cursor.getCount() > 0) {
@@ -133,12 +155,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     int prInd = cursor.getInt(priceIndex);
                     String servInd = cursor.getString(serviceIndex);
 
-                    textView.append("\n" + id + " | " + dateInd + " | " + actInd + " | "
-                            + prInd + " | " + servInd + ";");
+                    result += "\n" + id + " | " + dateInd + " | " + actInd + " | "
+                            + prInd + " | " + servInd + ";";
                 }
             }
         } finally {
             cursor.close();
         }
+
+        return result;
     }
 }
