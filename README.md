@@ -2,7 +2,7 @@
 v1.0 of Udacity Project 9 - Habit Tracker app
 
 # Description
-The goal of this project was to design and create the structure of a Habit Tracking app which would allow a user to store and track their habits over time. This project shouldn't have had any UI as its main task was to allow me to practice my SQLite3 storage skills in Android as I had to focus on what is happening behind the scenes, practicing how to design and implement a simple database. Still, I added some simple UI to help me track/visualize the changes.
+The goal of this project was to design and create the structure of a Habit Tracking app which would allow a user to store and track their habits over time. This project shouldn't have had any UI as its main task was to allow me to practice my SQLite3 storage skills in Android as I had to focus on what is happening behind the scenes, practicing how to design and implement a simple database. Still, I added some simple UI to help me track/visualize the changes. It is to be considered as a warm up project to "Project.10.Auto.Inventory".
 
 My tasks in this project include:
 - Creating an SQLite table in the app.
